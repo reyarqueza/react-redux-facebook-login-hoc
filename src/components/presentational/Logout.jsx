@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const Logout = () => {
-    return <h1>Logout</h1>
+export default class Logout extends Component {
+    render() {
+
+            this.props.userInfo().then(user => {
+                console.log(user);
+            });
+
+            return (
+                <div>
+                    <a onClick={this.props.handleLogout}>Logout</a>
+                </div>
+            )
+    }
 }
-
-export default Logout;

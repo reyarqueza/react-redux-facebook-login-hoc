@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const Login = () => {
-    return <h1>Login</h1>
+export default class Login extends Component {
+    render() {
+        return <a onClick={this.props.handleLogin}>Login</a>
+    }
 }
-
-export default Login;

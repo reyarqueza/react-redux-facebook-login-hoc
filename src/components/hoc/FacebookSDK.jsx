@@ -59,7 +59,7 @@ export const FacebookAuth = (options, fb) => {
         }
 
         render() {
-
+console.log(this.props);
             if (!this.props.facebookLogin || isEmpty(this.props.facebookLogin)) {
                 return <Loading  {...this.props}/>
             }
@@ -90,15 +90,11 @@ export const FacebookAuth = (options, fb) => {
             return state;
         }
 
-        if (!state.FacebookSDK.picture) {
-            return state;
-        }
-
         facebookSDK = state.FacebookSDK;
 
         return {
             facebookLogin: facebookSDK
-        }
+        } 
     }
 
     const mapDispatchToProps = dispatch => {
@@ -106,9 +102,6 @@ export const FacebookAuth = (options, fb) => {
             currentStatus: () => {
                 dispatch(actions.facebookGetLoginStatusPromise(fb))
             },
-            // userInfo: () => {
-            //     dispatch(actions.facebookApiMePromise(fb))
-            // },
             handleLogin: () => {
                 dispatch(actions.facebookLoginPromise(fb))
             },

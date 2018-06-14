@@ -16,21 +16,6 @@ export const FACEBOOK_GET_LOGIN_STATUS_PROMISE = 'FACEBOOK_GET_LOGIN_STATUS_PROM
 export const facebookGetLoginStatusPromise = fb => dispatch => {
     fb.then(fb => {
         fb.getLoginStatus(response => {
-
-            /*
-            if (response.authResponse) {
-                facebook = {
-                    accessToken: response.authResponse.accessToken,
-                    userID: response.authResponse.userID,
-                    status: response.status
-                }
-            } else {
-                facebook = {
-                    status: response.status
-                }
-            }
-            */
-           //console.log(response);
             dispatch(facebookGetLoginStatus(response, fb, dispatch));
         });
     }).catch(error => console.log(error));
@@ -50,16 +35,16 @@ export const facebookGraphApiMe = fb => dispatch => {
         locale: 'en_US', 
         fields: 'first_name,last_name,picture'
     }, response => {
-        console.log(response);
         dispatch(facebookApiMe(response));
     });
 }
 
 export const FACEBOOK_LOGIN = 'FACEBOOK_LOGIN';
-const facebookLogin = response => {
+const facebookLogin = (response, fb, dispatch) => {
     const facebook = {
         status: response.status
     }
+    dispatch(facebookGraphApiMe(fb)) 
     return {
         type: FACEBOOK_LOGIN,
         facebook
@@ -70,7 +55,7 @@ export const FACEBOOK_LOGIN_PROMISE = 'FACEBOOK_LOGIN_PROMISE';
 export const facebookLoginPromise = fb => dispatch => {
     fb.then(fb => {
         fb.login(response => {
-            dispatch(facebookLogin(response));
+            dispatch(facebookLogin(response, fb, dispatch));
         });
     }).catch(error => console.log(error));
 }

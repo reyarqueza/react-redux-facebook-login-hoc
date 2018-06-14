@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import isEmpty from 'lodash.isempty';
+import * as actions from '../../actions';
 
 export const FacebookInit = (config, debugMode = false) => {
     return new Promise((resolve, reject) => {
@@ -25,110 +28,95 @@ export const FacebookInit = (config, debugMode = false) => {
     });
 }
 
-export const FacebookAuth = (Login, Logout, Loading, FB, scope) => {
+export const FacebookAuth = (options, fb) => {
 
-    class _FacebookLoginLogout extends Component {
+    const {
+        Login, 
+        Logout, 
+        Loading
+    } = options;
+
+    //const fb = {...FB};
+
+    class FacebookLoginLogout extends Component {
 
         constructor(props) {
             super(props);
-            this.state = {};
-            this.state.handleLogin = this.handleLogin.bind(this);
-            this.state.handleLogout = this.handleLogout.bind(this);
-            this.state.userInfo = this.userInfo.bind(this);
-            FB.then(FB => {
-                FB.getLoginStatus(response => {
-                    console.log(response);
-                    this.setState({
-                        facebook: {
-                            status: response.status
-                        }
-                    });
-
-                    // if (response.authResponse) {
-                    //     this.setState({
-                    //         facebook: {
-                    //             accessToken: response.authResponse.accessToken,
-                    //             userID: response.authResponse.userID
-                    //         }
-                    //     });
-                    // }
-                });
-            })
-            .catch(error => console.log(error));
-        }
-
-        userInfo() {
-            return new Promise( (resolve, reject) => {
-                FB.then(FB => {
-                    FB.api('/me', { 
-                        locale: 'en_US', 
-                        fields: 'first_name,last_name,picture'
-                    }, response => {
-                        console.log(response);
-                        resolve(response);
-                    });
-    
-                    // FB.api(`/${this.state.userID}`, {}, response => {
-                    //     console.log(response);
-                    // });
-                    // FB.api(`/${this.state.userID}`, {
-                    //     fields: 'first_name,last_name',
-                    //     access_token: this.state.facebook.accessToken
-                    // }, response => {
-                    //     console.log(response);
-                    // });
-                
-                });
-            });
-
-        }
-
-        handleLogout() {
-            FB.then(FB => {
-                FB.logout(response => {
-                    console.log('logged out..', response);
-                    this.setState({
-                        facebook: {
-                            status: response.status
-                        }
-                    });
-                });
-            });
+            this.handleLogin = this.handleLogin.bind(this);
+            this.handleLogout = this.handleLogout.bind(this);
         }
 
         handleLogin() {
-            FB.then(FB => {
-                FB.login(response => {
-                    // handle the response
-                    console.log('logged in..', response);
-                    this.setState({
-                        facebook: {
-                            status: response.status
-                        }
-                    });
-                  }, scope);
-            });
+            this.props.handleLogin(fb);
+        }
+
+        handleLogout() {
+            this.props.handleLogout(fb);
+        }
+
+        componentDidMount() {
+            this.props.currentStatus(fb);
         }
 
         render() {
-            if (!this.state.facebook) {
-                return <Loading/>
+
+            if (!this.props.facebookLogin || isEmpty(this.props.facebookLogin)) {
+                return <Loading  {...this.props}/>
             }
-            console.log('this.state.facebook.status', this.state.facebook.status)
-            switch (this.state.facebook.status) {
+
+            switch (this.props.facebookLogin.status) {
                 case 'connected':
-                    return <Logout {...this.state} {...this.props}/>
+                    return <Logout {...this.props}/>
                 case 'not_authorized':
                 case 'unknown':
-                    return <Login {...this.state} {...this.props}/>
+                    return <Login {...this.props}/>
                 default:
-                    return <Login {...this.state} {...this.props} />
+                    return <Login {...this.props}/>
             }
             
         }
 
     }
-    
-    return _FacebookLoginLogout;
-}
 
+    const mapStateToProps = state => {
+
+        let facebookSDK;
+
+        if (isEmpty(state)) {
+            return {};
+        }
+
+        if (!state.FacebookSDK) {
+            return state;
+        }
+
+        if (!state.FacebookSDK.picture) {
+            return state;
+        }
+
+        facebookSDK = state.FacebookSDK;
+
+        return {
+            facebookLogin: facebookSDK
+        }
+    }
+
+    const mapDispatchToProps = dispatch => {
+        return {
+            currentStatus: () => {
+                dispatch(actions.facebookGetLoginStatusPromise(fb))
+            },
+            // userInfo: () => {
+            //     dispatch(actions.facebookApiMePromise(fb))
+            // },
+            handleLogin: () => {
+                dispatch(actions.facebookLoginPromise(fb))
+            },
+            handleLogout: () => {
+                dispatch(actions.facebookLogoutPromise(fb))
+            }
+        }
+    }
+
+    return connect(mapStateToProps, mapDispatchToProps)(FacebookLoginLogout);
+}

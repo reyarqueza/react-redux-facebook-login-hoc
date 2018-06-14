@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default () => {
-    return <h1>Loading...</h1>
+    return <p>Loading...</p>
 }

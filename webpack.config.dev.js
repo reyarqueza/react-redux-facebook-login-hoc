@@ -1,5 +1,5 @@
 const config = {
-    entry: './src/index.js',
+    entry: './demo/index.js',
     devtool: 'inline-source-map',
     output: {
       filename: './js/bundle.js',

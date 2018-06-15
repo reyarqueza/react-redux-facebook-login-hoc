@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash.isempty';
 import * as actions from './actions';
+import reducer from './reducers';
+
+export const FacebookReducer = reducer;
 
 export const FacebookInit = (config, debugMode = false) => {
     return new Promise((resolve, reject) => {

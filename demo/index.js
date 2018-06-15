@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import reducer from '../src/reducers';
-import { FacebookAuth, FacebookInit } from '../src/index.js';
+import { FacebookAuth, FacebookInit, FacebookReducer } from '../src/index.js';
 
 // These three components you can change the HTML to customize if needed.
 import Loading from './components/presentational/Loading.jsx';
@@ -31,7 +30,7 @@ const FacebookLoginLogout = FacebookAuth({
 }, facebookSDK);
 
 const store = createStore(
-    reducer, 
+    FacebookReducer, 
     composeEnhancers(applyMiddleware(thunk))
 );
 

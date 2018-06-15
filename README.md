@@ -44,4 +44,86 @@ The designer doesn't need to understand React. The designer can edit the HTML/CS
 ### The React Developer
 The React Developer can then take the edited presentational components and easily pass the presentational components to the HOC (higher order component). See usage below on what to copy/paste into your own source code.
 
+### Requirements
+For the React Developer, I will assume you have your own build system (whether it is home grown with gulp, webpack, or build systems on top of webpack like create-react-app). Your build system's transpiler must support the following babel presets:
+
+1. react : needed for [JSX](https://babeljs.io/docs/en/babel-preset-react)
+1. stage-2 : needed for [transform-object-rest-spread](https://babeljs.io/docs/en/babel-preset-stage-2)
+
+Its possible that your build system's transpiler already supports this. 
+
 ### Usage
+
+Install the necessary dependencies that your React app doesn't have:
+
+```
+npm install --save-dev react react-dom redux react-redux redux-thunk react-redux-facebook-login-hoc
+
+```
+
+If you want to match versions, see the [package.json](package.json) file, but first try using react-redux-facebook-login-hoc with your version of react, redux, etc as there are most likely no breaking changes.
+
+In your root js file, copy and paste the following, or import just the modules you don't have.
+
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import { FacebookAuth, FacebookInit, FacebookReducer } from '../src/index.js';
+```
+
+Now here's the fun part where you create three presentational components, Login, Loading, and Logout. You can start off by copying them from the [demo directory](demo/components/presentational) and even use them as is if you don't really care about customizing them.
+
+```
+// These three components you can change the HTML to customize if needed.
+import Loading from './components/presentational/Loading.jsx';
+import Login from './components/presentational/Login.jsx';
+import Logout from './components/presentational/Logout.jsx';
+```
+
+Its also nice to use Redux DevTools to see the state.
+
+```
+// Please install Redux DevTools extension for your browser
+// https://github.com/zalmoxisus/redux-devtools-extension
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+```
+
+Configure your appId you can get from the developer facebook website. Leave the other fields as they are:
+
+```
+const config = {
+    appId            : '1234567890',
+    autoLogAppEvents : true,
+    xfbml            : true,
+    version          : 'v3.0'    
+}
+```
+
+Copy and paste the rest of the code below and you are done!
+
+```
+const facebookSDK = FacebookInit(config);
+//const facebookSDK = FacebookInit(config, true); //enable debug mode
+const FacebookLoginLogout = FacebookAuth({
+    Login, 
+    Logout, 
+    Loading
+}, facebookSDK);
+
+const store = createStore(
+    FacebookReducer, 
+    composeEnhancers(applyMiddleware(thunk))
+);
+
+ReactDOM.render(
+    <Provider store={store}>
+        <FacebookLoginLogout/>
+    </Provider>,
+    document.querySelector('main')
+);
+```
+
+### If you are starting from scratch, check out the [demo](demo) directory to get up and running quickly.

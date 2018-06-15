@@ -5,10 +5,14 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import reducer from '../src/reducers';
 import { FacebookAuth, FacebookInit } from '../src/index.js';
+
+// These three components you can change the HTML to customize if needed.
 import Loading from './components/presentational/Loading.jsx';
 import Login from './components/presentational/Login.jsx';
 import Logout from './components/presentational/Logout.jsx';
 
+// Please install Redux DevTools extension for your browser
+// https://github.com/zalmoxisus/redux-devtools-extension
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const config = {

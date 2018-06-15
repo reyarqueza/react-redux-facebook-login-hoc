@@ -1,5 +1,12 @@
 import React from 'react';
 
 export default () => {
-    return <p>Loading...</p>
+    return (
+        <div className="facebook-login">
+            <span className="loading">
+                <i className="fab fa-facebook"></i>
+                <span>Loading...</span>
+            </span>
+        </div>
+    )
 }

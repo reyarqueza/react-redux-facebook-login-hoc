@@ -5,6 +5,12 @@ This component is a react-redux wrapper around the facebook sdk which implements
 ### Demo
 To run the demo:
 
+Add your facebook app id in the [demo/index.js](demo/index.js) file on the line 18:
+
+```
+    appId            : '<add your facebook app id here>',
+```
+
 ```
 npm install
 npm start
@@ -71,7 +77,7 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { FacebookAuth, FacebookInit, FacebookReducer } from '../src/index.js';
+import { FacebookAuth, FacebookInit, FacebookReducer } from 'react-redux-facebook-login-hoc';
 ```
 
 Now here's the fun part where you create three presentational components, Login, Loading, and Logout. You can start off by copying them from the [demo directory](demo/components/presentational) and even use them as is if you don't really care about customizing them.

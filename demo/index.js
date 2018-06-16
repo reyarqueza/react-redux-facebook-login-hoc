@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { FacebookAuth, FacebookInit, FacebookReducer } from '../src/index.js';
+import { FacebookAuth, FacebookInit, FacebookReducer } from 'react-redux-facebook-login-hoc';
 
 // These three components you can change the HTML to customize if needed.
 import Loading from './components/presentational/Loading.jsx';
@@ -15,7 +15,7 @@ import Logout from './components/presentational/Logout.jsx';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const config = {
-    appId            : '1765313676895663',
+    appId            : '<add your facebook app id here>',
     autoLogAppEvents : true,
     xfbml            : true,
     version          : 'v3.0'    

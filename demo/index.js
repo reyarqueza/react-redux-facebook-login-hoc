@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { FacebookAuth, FacebookInit, FacebookReducer } from 'react-redux-facebook-login-hoc';
+import { FacebookAuth, FacebookInit, FacebookReducer } from '../src/index.jsx';
 
 // These three components you can change the HTML to customize if needed.
 import Loading from './components/presentational/Loading.jsx';

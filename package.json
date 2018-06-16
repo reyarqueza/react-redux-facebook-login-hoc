@@ -13,9 +13,10 @@
     "url": "git+https://github.com/reyarqueza/react-redux-facebook-login-hoc.git"
   },
   "keywords": [
+    "Facebook Login higher order component",
     "react",
-    "webpack",
-    "build"
+    "redux",
+    "Facebook Login hoc"
   ],
   "author": "Rey Arqueza",
   "license": "MIT",

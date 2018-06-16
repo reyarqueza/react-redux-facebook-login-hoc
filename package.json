@@ -2,7 +2,7 @@
   "name": "react-redux-facebook-login-hoc",
   "version": "1.0.1",
   "description": "Pass your own login, logout, and loading components to this higher order component to implement facebook login using React and Redux.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx webpack --watch --config webpack.config.dev.js --mode development & node ./start-server.js",

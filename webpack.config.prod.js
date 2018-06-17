@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const config = {
-    entry: './demo/index.js',
+    entry: './src/index.jsx',
     devtool: 'source-map',
     plugins: [
         new UglifyJSPlugin({
@@ -13,8 +13,8 @@ const config = {
         })
     ],
     output: {
-        filename: './js/bundle.js',
-        path: __dirname + '/public'
+        filename: './bundle.js',
+        path: __dirname + '/dist'
     },
     module: {
         rules: [

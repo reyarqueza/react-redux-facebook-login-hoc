@@ -65,6 +65,8 @@ You'll also need to npm install --save-dev the following:
 
 ### Usage
 
+_**STEP 1 - React Dependencies**_ 
+
 Install the necessary dependencies that your React app doesn't have:
 
 ```
@@ -73,6 +75,8 @@ npm install --save-dev react react-dom redux react-redux redux-thunk react-redux
 ```
 
 If you want to match versions, see the [package.json](package.json) file, but first try using react-redux-facebook-login-hoc with your version of react, redux, etc as there are most likely no breaking changes.
+
+_**STEP 2 - Root JS File Imports**_
 
 In your root js file, copy and paste the following, or import just the modules you don't have.
 
@@ -84,8 +88,26 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { FacebookAuth, FacebookInit, FacebookReducer } from 'react-redux-facebook-login-hoc';
 ```
+_**STEP 3 - Presentational Components**_
 
-Now here's the fun part where you create three presentational components, Login, Loading, and Logout. You can start off by copying them from the [demo directory](demo/components/presentational) and even use them as is if you don't really care about customizing them. You'll need to copy the css [here](public/css/index.css).
+Now here's the fun part where you create three presentational components, Login, Loading, and Logout. 
+
+* Copy these three files from the [demo directory](demo/components/presentational)
+* Copy the css [here](public/css/index.css).
+* Add FontAwesome in your index.html file.
+
+```
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous">
+```
+
+These would be the only 3 files you would hand off to your friendly HTML/CSS Designer for customization. If they decide to customize the HTML/CSS, remind them to use className instead of class since this is HTML in React. Also remind them to not delete any javascript expressions for example: onClick={props.handleLogin}.
+
+**Back to the Root JS File**
+
+_**STEP 4 - Importing Presentational Components**_
+
+Continuing where we left off, we now import our presentational components. 
 
 ```
 // These three components you can change the HTML to customize if needed.
@@ -93,6 +115,8 @@ import Loading from './components/presentational/Loading.jsx';
 import Login from './components/presentational/Login.jsx';
 import Logout from './components/presentational/Logout.jsx';
 ```
+
+_**STEP 5 - Redux DevTools**_
 
 Its also nice to use Redux DevTools to see the state.
 
@@ -102,7 +126,9 @@ Its also nice to use Redux DevTools to see the state.
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 ```
 
-Configure your appId you can get from the developer facebook website. Leave the other fields as they are:
+_**STEP 6 - Facebook Login config**_
+
+Configure your appId you can get from [facebook for developers](https://developers.facebook.com/apps/). Leave the other fields as they are:
 
 ```
 const config = {
@@ -113,17 +139,32 @@ const config = {
 }
 ```
 
-Copy and paste the rest of the code below and you are done!
+_**STEP 7 - Initialize the Facebook SDK**_
+
+Let's asynchronously load the Facebook SDK for JavaScript. We'll need this to pass to our Higher Order Component in the next step.
 
 ```
 const facebookSDK = FacebookInit(config);
 //const facebookSDK = FacebookInit(config, true); //enable debug mode
+```
+
+_**STEP 8 - Pass our presentational components to our Facebook Login HOC**_
+
+We pass Login, Logout, Loading, and the facebookSDK as follows:
+
+```
 const FacebookLoginLogout = FacebookAuth({
     Login, 
     Logout, 
     Loading
 }, facebookSDK);
+```
 
+_**STEP 9 - Finish off with the usual Redux and React code**_
+
+One thing to mention is that under the hood, react-redux-facebook-login-hoc uses redux-thunk (Async Actions) which is why we applyMiddleware.
+
+```
 const store = createStore(
     FacebookReducer, 
     composeEnhancers(applyMiddleware(thunk))

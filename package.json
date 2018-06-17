@@ -1,6 +1,6 @@
 {
   "name": "react-redux-facebook-login-hoc",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Pass your own login, logout, and loading components to this higher order component to implement facebook login using React and Redux.",
   "main": "dist/index.js",
   "scripts": {
@@ -35,10 +35,7 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "babelify": "^8.0.0",
-    "browserify": "^16.2.2",
     "lodash.isempty": "^4.4.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",

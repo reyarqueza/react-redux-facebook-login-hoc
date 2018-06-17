@@ -58,6 +58,11 @@ For the React Developer, I will assume you have your own build system (whether i
 
 Its possible that your build system's transpiler already supports this. 
 
+### Misc Dependencies
+You'll also need to npm install --save-dev the following:
+
+* lodash.isempty
+
 ### Usage
 
 Install the necessary dependencies that your React app doesn't have:
@@ -80,7 +85,7 @@ import thunk from 'redux-thunk';
 import { FacebookAuth, FacebookInit, FacebookReducer } from 'react-redux-facebook-login-hoc';
 ```
 
-Now here's the fun part where you create three presentational components, Login, Loading, and Logout. You can start off by copying them from the [demo directory](demo/components/presentational) and even use them as is if you don't really care about customizing them.
+Now here's the fun part where you create three presentational components, Login, Loading, and Logout. You can start off by copying them from the [demo directory](demo/components/presentational) and even use them as is if you don't really care about customizing them. You'll need to copy the css [here](public/css/index.css).
 
 ```
 // These three components you can change the HTML to customize if needed.

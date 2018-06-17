@@ -1,6 +1,6 @@
 {
   "name": "react-redux-facebook-login-hoc",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Pass your own login, logout, and loading components to this higher order component to implement facebook login using React and Redux.",
   "main": "dist/index.js",
   "scripts": {

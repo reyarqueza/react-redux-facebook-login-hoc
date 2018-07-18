@@ -3,7 +3,7 @@
 export const FACEBOOK_GET_LOGIN_STATUS = 'FACEBOOK_GET_LOGIN_STATUS';
 const facebookGetLoginStatus = (response, fb, dispatch) => {
     if (response.status === 'connected') {
-        dispatch(facebookGraphApiMe(fb))  
+        dispatch(facebookGraphApiMe(fb));
     }
 
     return {
@@ -56,6 +56,7 @@ export const facebookLoginPromise = fb => dispatch => {
     fb.then(fb => {
         fb.login(response => {
             dispatch(facebookLogin(response, fb, dispatch));
+            //return Promise.resolve(response);
         });
     }).catch(error => console.log(error));
 }
@@ -76,6 +77,7 @@ export const facebookLogoutPromise = fb => dispatch => {
     fb.then(fb => {
         fb.logout(response => {
             dispatch(facebookLogout(response));
+            //return Promise.resolve(response);
         });
     }).catch(error => console.log(error));
 }

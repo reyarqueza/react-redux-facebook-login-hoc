@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import FacebookSDK from './facebook-sdk';
+import facebookSDK from './facebook-sdk';
 
 const reducer = combineReducers({
-    FacebookSDK
+    facebookSDK
 });
 
 export default reducer;

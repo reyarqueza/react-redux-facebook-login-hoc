@@ -26,7 +26,9 @@ const facebookSDK = FacebookInit(config);
 const FacebookLoginLogout = FacebookAuth({
     Login, 
     Logout, 
-    Loading
+    Loading,
+    onLogin,
+    onLogout
 }, facebookSDK);
 
 const store = createStore(

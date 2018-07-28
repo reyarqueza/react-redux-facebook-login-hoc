@@ -1,6 +1,6 @@
 // Configuration for Facebook Login
 const config = {
-    appId            : '1765313676895663',
+    appId            : '<add your facebook app id here>',
     autoLogAppEvents : true,
     xfbml            : true,
     version          : 'v3.0'    

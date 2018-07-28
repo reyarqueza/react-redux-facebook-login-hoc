@@ -27,7 +27,7 @@ const facebookApiMe = response => {
 }
 
 export const FACEBOOK_GRAPH_API_ME = 'FACEBOOK_GRAPH_API_ME';
-export const facebookGraphApiMe = (fb, onLogin) => dispatch => {
+const facebookGraphApiMe = (fb, onLogin) => dispatch => {
     fb.api('/me', { 
         locale: 'en_US', 
         fields: 'first_name,last_name,picture'
@@ -40,7 +40,7 @@ export const facebookGraphApiMe = (fb, onLogin) => dispatch => {
 }
 
 export const FACEBOOK_LOGIN = 'FACEBOOK_LOGIN';
-const facebookLogin = (response, fb, onLogin, dispatch) => {
+const facebookLogin = (response, fb, onLogin) => dispatch => {
     const facebook = {
         status: response.status
     }
@@ -51,7 +51,7 @@ export const FACEBOOK_LOGIN_PROMISE = 'FACEBOOK_LOGIN_PROMISE';
 export const facebookLoginPromise = (fb, onLogin) => dispatch => {
     fb.then(fb => {
         fb.login(response => {
-            dispatch(facebookLogin(response, fb, onLogin, dispatch));
+            dispatch(facebookLogin(response, fb, onLogin));
         });
     }).catch(error => console.log(error));
 }

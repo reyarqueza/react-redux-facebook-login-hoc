@@ -1,11 +1,8 @@
-/* main actions */
-
 export const FACEBOOK_GET_LOGIN_STATUS = 'FACEBOOK_GET_LOGIN_STATUS';
-const facebookGetLoginStatus = (response, fb, dispatch) => {
+const facebookGetLoginStatus = (response, fb, onLogin, dispatch) => {
     if (response.status === 'connected') {
-        dispatch(facebookGraphApiMe(fb))  
+        dispatch(facebookGraphApiMe(fb, onLogin));
     }
-
     return {
         type: FACEBOOK_GET_LOGIN_STATUS,
         facebook: response
@@ -13,10 +10,10 @@ const facebookGetLoginStatus = (response, fb, dispatch) => {
 };
 
 export const FACEBOOK_GET_LOGIN_STATUS_PROMISE = 'FACEBOOK_GET_LOGIN_STATUS_PROMISE';
-export const facebookGetLoginStatusPromise = fb => dispatch => {
+export const facebookGetLoginStatusPromise = (fb, onLogin) => dispatch => {
     fb.then(fb => {
         fb.getLoginStatus(response => {
-            dispatch(facebookGetLoginStatus(response, fb, dispatch));
+            dispatch(facebookGetLoginStatus(response, fb, onLogin, dispatch));
         });
     }).catch(error => console.log(error));
 };
@@ -30,32 +27,31 @@ const facebookApiMe = response => {
 }
 
 export const FACEBOOK_GRAPH_API_ME = 'FACEBOOK_GRAPH_API_ME';
-export const facebookGraphApiMe = fb => dispatch => {
+const facebookGraphApiMe = (fb, onLogin) => dispatch => {
     fb.api('/me', { 
         locale: 'en_US', 
         fields: 'first_name,last_name,picture'
     }, response => {
+        if (onLogin) {
+            onLogin(response);
+        }
         dispatch(facebookApiMe(response));
     });
 }
 
 export const FACEBOOK_LOGIN = 'FACEBOOK_LOGIN';
-const facebookLogin = (response, fb, dispatch) => {
+const facebookLogin = (response, fb, onLogin) => dispatch => {
     const facebook = {
         status: response.status
     }
-    dispatch(facebookGraphApiMe(fb)) 
-    return {
-        type: FACEBOOK_LOGIN,
-        facebook
-    }
+    dispatch(facebookGraphApiMe(fb, onLogin));
 }
 
 export const FACEBOOK_LOGIN_PROMISE = 'FACEBOOK_LOGIN_PROMISE';
-export const facebookLoginPromise = fb => dispatch => {
+export const facebookLoginPromise = (fb, onLogin) => dispatch => {
     fb.then(fb => {
         fb.login(response => {
-            dispatch(facebookLogin(response, fb, dispatch));
+            dispatch(facebookLogin(response, fb, onLogin));
         });
     }).catch(error => console.log(error));
 }
@@ -72,9 +68,10 @@ const facebookLogout = response => {
 }
 
 export const FACEBOOK_LOGOUT_PROMISE = 'FACEBOOK_LOGOUT_PROMISE';
-export const facebookLogoutPromise = fb => dispatch => {
+export const facebookLogoutPromise = (fb, onLogout) => dispatch => {
     fb.then(fb => {
         fb.logout(response => {
+            onLogout(response);
             dispatch(facebookLogout(response));
         });
     }).catch(error => console.log(error));

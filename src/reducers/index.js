@@ -1,8 +1,22 @@
-import { combineReducers } from 'redux';
-import FacebookSDK from './facebook-sdk';
+import * as actions from '../actions';
 
-const reducer = combineReducers({
-    FacebookSDK
-});
+const facebookInfo = (state={}, action) => {
 
-export default reducer;
+    switch (action.type) { 
+        case actions.FACEBOOK_API_ME:
+        case actions.FACEBOOK_GET_LOGIN_STATUS:
+        case actions.FACEBOOK_LOGIN:
+            return {
+                ...state,
+                ...action.facebook
+            }
+        case actions.FACEBOOK_LOGOUT:
+            return {
+                ...action.facebook
+            };
+        default:
+            return state;
+    }
+}
+
+export default facebookInfo;

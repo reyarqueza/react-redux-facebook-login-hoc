@@ -4,8 +4,7 @@ import isEmpty from 'lodash.isempty';
 import * as actions from './actions';
 import reducer from './reducers';
 
-export const FacebookReducer = reducer;
-
+export const facebookInfo = reducer;
 export const FacebookInit = (config, debugMode = false) => {
     return new Promise((resolve, reject) => {
 
@@ -31,28 +30,23 @@ export const FacebookInit = (config, debugMode = false) => {
     });
 }
 
-export const FacebookAuth = (options, fb) => {
+export const FacebookLogin = (options, fb) => {
 
     const {
         Login, 
-        Logout, 
-        Loading
+        Loading,
+        onLogin
     } = options;
 
-    class FacebookLoginLogout extends Component {
+    class _FacebookLogin extends Component {
 
         constructor(props) {
             super(props);
             this.handleLogin = this.handleLogin.bind(this);
-            this.handleLogout = this.handleLogout.bind(this);
         }
 
         handleLogin() {
-            this.props.handleLogin(fb);
-        }
-
-        handleLogout() {
-            this.props.handleLogout(fb);
+            this.props.handleLogin(fb, onLogin);
         }
 
         componentDidMount() {
@@ -60,57 +54,75 @@ export const FacebookAuth = (options, fb) => {
         }
 
         render() {
-
-            if (!this.props.facebookLogin || isEmpty(this.props.facebookLogin)) {
+            if (!this.props.facebookInfo || isEmpty(this.props.facebookInfo)) {
                 return <Loading  {...this.props}/>
             }
 
-            switch (this.props.facebookLogin.status) {
-                case 'connected':
-                    return <Logout {...this.props}/>
-                case 'not_authorized':
-                case 'unknown':
-                    return <Login {...this.props}/>
-                default:
-                    return <Login {...this.props}/>
+            return <Login {...this.props}/>
+        }
+
+    }
+
+    const mapStateToProps = state => ({
+        facebookInfo: state.facebookInfo
+    });
+
+    const mapDispatchToProps = dispatch => {
+        return {
+            currentStatus: () => {
+                dispatch(actions.facebookGetLoginStatusPromise(fb, onLogin));
+            },
+            handleLogin: () => {
+                dispatch(actions.facebookLoginPromise(fb, onLogin));
             }
-            
+        }
+    }
+
+    return connect(mapStateToProps, mapDispatchToProps)(_FacebookLogin);
+}
+
+export const FacebookLogout = (options, fb) => {
+
+    const {
+        Logout,
+        Loading,
+        onLogout
+    } = options;
+
+    class _FacebookLogout extends Component {
+
+        constructor(props) {
+            super(props);
+            this.handleLogout = this.handleLogout.bind(this);
+        }
+
+        handleLogout() {
+            this.props.handleLogout(fb, onLogout);
+        }
+
+        render() {
+            if (!this.props.facebookInfo || isEmpty(this.props.facebookInfo)) {
+                return <Loading  {...this.props}/>
+            }
+
+            return <Logout {...this.props}/>;
         }
 
     }
 
     const mapStateToProps = state => {
-
-        let facebookSDK;
-
-        if (isEmpty(state)) {
-            return {};
-        }
-
-        if (!state.FacebookSDK) {
-            return state;
-        }
-
-        facebookSDK = state.FacebookSDK;
-
         return {
-            facebookLogin: facebookSDK
-        } 
+            facebookInfo: state.facebookInfo
+        }
     }
 
     const mapDispatchToProps = dispatch => {
         return {
-            currentStatus: () => {
-                dispatch(actions.facebookGetLoginStatusPromise(fb))
-            },
-            handleLogin: () => {
-                dispatch(actions.facebookLoginPromise(fb))
-            },
             handleLogout: () => {
-                dispatch(actions.facebookLogoutPromise(fb))
+                dispatch(actions.facebookLogoutPromise(fb, onLogout));
             }
         }
     }
 
-    return connect(mapStateToProps, mapDispatchToProps)(FacebookLoginLogout);
+    return connect(mapStateToProps, mapDispatchToProps)(_FacebookLogout);
 }

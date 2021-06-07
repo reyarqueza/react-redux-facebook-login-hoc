@@ -10,10 +10,10 @@ export default (props) => {
         return (
             <div className="facebook-login">
                 <span className="profile">
-                    <img 
-                        src={props.facebookInfo.picture.data.url} 
-                        width={props.facebookInfo.picture.data.width} 
-                        height={props.facebookInfo.picture.data.height} 
+                    <img
+                        src={props.facebookInfo.picture.data.url}
+                        width={props.facebookInfo.picture.data.width}
+                        height={props.facebookInfo.picture.data.height}
                         alt="Profile Picture"
                     />
                     <span className="name">
@@ -21,7 +21,7 @@ export default (props) => {
                         <span className="lastName">{props.facebookInfo.last_name}</span>
                     </span>
                 </span>
-                <a className="logout" href="javascript:void(0)" onClick={props.handleLogout}>Logout</a>
+                <a className="logout" href="#" onClick={props.handleLogout}>Logout</a>
             </div>
         )
     }

@@ -1,19 +1,11 @@
 {
   "name": "react-redux-facebook-login-hoc",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Pass your own login, logout, and loading components to this higher order component to implement facebook login using React and Redux.",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx webpack --watch --config webpack.config.dev.js --mode development & node ./start-server.js",
-    "prepublish": "rm -rf ./dist && node_modules/babel-cli/bin/babel.js src --out-dir dist"
-  },
-  "babel": {
-    "presets": [
-      "env",
-      "react",
-      "stage-2"
-    ]
+    "start": "npx webpack --watch --config webpack.config.dev.js --mode development & node ./start-server.js"
   },
   "repository": {
     "type": "git",
@@ -32,24 +24,23 @@
   },
   "homepage": "https://github.com/reyarqueza/react-redux-facebook-login-hoc#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
+    "@babel/core": "^7.14.3",
+    "@babel/node": "^7.14.2",
+    "@babel/preset-env": "^7.14.4",
+    "@babel/preset-react": "^7.13.13",
+    "babel-loader": "^8.2.2",
     "lodash.isempty": "^4.4.0",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "react-redux": "^5.0.7",
-    "react-router-dom": "^4.3.1",
-    "redux": "^4.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
-    "uglifyjs-webpack-plugin": "^1.2.5",
-    "webpack": "^4.8.1",
-    "webpack-cli": "^2.1.3"
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0"
   },
   "dependencies": {
-    "express": "^4.16.3",
+    "express": "^4.17.1",
     "fs": "0.0.1-security",
     "https": "^1.0.0"
   }
